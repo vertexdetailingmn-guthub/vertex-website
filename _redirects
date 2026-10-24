@@ -1,0 +1,27 @@
+# Old WordPress URLs -> new site (Cloudflare Pages format)
+/about/                     /index.html                     301
+/about                      /index.html                     301
+/servicearea/               /service-area.html              301
+/servicearea                /service-area.html              301
+/giftcards/                 /gift-cards.html                301
+/giftcards                  /gift-cards.html                301
+/reviews/                   /reviews.html                   301
+/mobile-car-detailing/      /mobile-car-detailing.html      301
+/ceramic-coating/           /ceramic-coating.html           301
+/additional-services/       /mobile-car-detailing.html#add-ons 301
+/boat-services/             /boat-rv-detailing.html         301
+/rv-services/               /boat-rv-detailing.html         301
+/fleet-cleaning/            /contact.html                   301
+/maintenance-plans/         /maintenance-plans.html         301
+/contact/                   /contact.html                   301
+/faq/                       /faq.html                       301
+/getaquote/                 /book.html                      301
+/privacy-policy-2/          /privacy.html                   301
+/terms-and-conditions/      /terms.html                     301
+/stillwater-car-detailing/  /stillwater-car-detailing.html  301
+/white-bear-lake-car-detailing/ /white-bear-lake-car-detailing.html 301
+/st-paul-car-detailing/     /st-paul-car-detailing.html     301
+/leather-care-101-keeping-your-seats-in-top-shape/ /mobile-car-detailing.html 301
+/understanding-the-art-of-paint-correction/ /ceramic-coating.html 301
+/spring-cleaning-tips-and-tricks-for-your-car/ /mobile-car-detailing.html 301
+/why-detailing-makes-your-car-worth-more/ /mobile-car-detailing.html 301

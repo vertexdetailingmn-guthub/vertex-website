@@ -1,0 +1,54 @@
+<!--META
+title: Book Mobile Detailing Online | Vertex Detailing Woodbury MN
+desc: Book a mobile car detail in a few steps. Pick your package, tell us about the car, choose a day. We text to confirm.
+-->
+<section class="page-hero" style="padding-bottom:28px">
+  <div class="wrap">
+    <div>
+      <div class="crumb"><a href="index.html">Home</a> / Book</div>
+      <h1>Book online in <em>a few steps.</em></h1>
+      <p class="lead">Address, contact, vehicle, package, date. We text you within a few hours to confirm the time.</p>
+    </div>
+    <div class="card" style="background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.14);color:var(--dark-ink)">
+      <h3>Rather just text?</h3>
+      <p style="color:var(--dark-muted)">Send the vehicle, your city, and a photo of the worst spot. Same result, and you don't have to fill anything in.</p>
+      <a class="btn btn-primary" href="{SMS}" style="margin-top:14px">Text {PHONE}</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:28px">
+  <div class="wrap">
+    <div id="booking-form-iframe-container"></div>
+    <noscript><p class="callout">The booking form needs JavaScript. <a href="{BOOK}">Open the booking form directly</a>.</p></noscript>
+    <p class="finebar" style="margin-top:14px">Secure booking handled by our scheduling system. If it doesn't load, <a href="{BOOK}">open it in a new tab</a> or text us.</p>
+  </div>
+</section>
+<script src="https://orbisx.ca/app/book-now-js/VSVwv/VSnKt" defer></script>
+
+<section class="section ba" id="quick" style="padding-block:56px">
+  <div class="wrap two">
+    <div>
+      <span class="eyebrow">Just want a price?</span>
+      <h2 style="font-size:clamp(30px,4vw,44px)">20-second quote request</h2>
+      <p style="color:var(--dark-muted);margin-top:10px">Three fields. We text you a firm price, usually within the hour during the season.</p>
+    </div>
+    <form class="form" id="quickform" novalidate style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.14);border-radius:8px;padding:22px;color:var(--dark-ink)">
+      <label>What do you need?
+        <select name="interest" id="q-interest">
+          <option>Mobile Detailing</option><option>Ceramic Coating</option><option>Maintenance</option><option>Boat Detailing</option><option>RV Detailing</option>
+        </select>
+      </label>
+      <div class="row">
+        <label>Vehicle<input name="vehicle" id="q-vehicle" placeholder="2021 Toyota Highlander" required></label>
+        <label>City<input name="city" id="q-city" placeholder="Woodbury" required></label>
+      </div>
+      <div class="row">
+        <label>Name<input name="contact" id="q-name" required autocomplete="name"></label>
+        <label>Mobile<input type="tel" name="phone" id="q-phone" required autocomplete="tel"></label>
+      </div>
+      <button type="submit" class="btn btn-primary" id="q-submit">Text me a price</button>
+      <div id="q-done" class="callout" hidden><b>Sent.</b> We'll text you shortly.</div>
+    </form>
+  </div>
+</section>
