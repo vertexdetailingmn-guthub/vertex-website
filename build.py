@@ -81,8 +81,6 @@ def build():
     if os.path.isdir(os.path.join(DIST, 'img')):
         shutil.rmtree(os.path.join(DIST, 'img'))
     shutil.copytree(os.path.join(ROOT, 'img'), os.path.join(DIST, 'img'))
-    if os.path.isdir(os.path.join(DIST,'functions')): shutil.rmtree(os.path.join(DIST,'functions'))
-    shutil.copytree(os.path.join(ROOT, 'functions'), os.path.join(DIST, 'functions'))
     for ico in ['favicon.ico', 'apple-touch-icon.png', '_redirects', 'robots.txt']:
         p = os.path.join(ROOT, ico)
         if os.path.exists(p): shutil.copy(p, DIST)
