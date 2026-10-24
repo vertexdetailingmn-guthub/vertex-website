@@ -94,6 +94,18 @@ def build():
         out = head(title, desc, '' if name == 'index.html' else name) + '\n' + header(name) + '\n' + body + '\n' + FOOTER
         open(os.path.join(DIST, name), 'w').write(out)
         print('built', name)
+    # sitemap: every public page except 404/thanks
+    skip={'404.html','thanks.html'}
+    urls=[n for n in sorted(os.listdir(os.path.join(ROOT,'pages'))) if n.endswith('.html') and n not in skip]
+    today=__import__('datetime').date.today().isoformat()
+    xml='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    for n in urls:
+        loc='https://vertexdetailing.co/'+('' if n=='index.html' else n)
+        pri='1.0' if n=='index.html' else '0.8'
+        xml+=f'  <url><loc>{loc}</loc><lastmod>{today}</lastmod><priority>{pri}</priority></url>\n'
+    xml+='</urlset>\n'
+    open(os.path.join(DIST,'sitemap.xml'),'w').write(xml)
+    print('built sitemap.xml')
 
 if __name__ == '__main__':
     build()
