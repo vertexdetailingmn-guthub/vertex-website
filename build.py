@@ -4,7 +4,7 @@ import os, re, glob, shutil
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 DIST = os.path.join(ROOT, 'dist')
-BOOK = 'https://orbisx.ca/app/booknow/VSVwv'
+BOOK = 'https://orbisx.ca/app/book-now/VSVwv/VSnKt'
 PHONE = '(651) 363-4422'
 SMS = 'sms:6513634422'
 
@@ -39,14 +39,14 @@ def header(current):
   <div class="wrap">
     <a class="logo" href="index.html"><img src="img/logo.png" alt="Vertex Detailing" width="640" height="293"></a>
     <ul>{items}</ul>
-    <a class="btn btn-primary" href="book.html">Book Online</a>
+    <a class="btn btn-primary" href="{BOOK}">Book Online</a>
   </div>
 </header>'''
 
 FOOTER = f'''<section class="final">
   <div class="wrap">
     <h2>Ready for that new-car feeling?</h2>
-    <div class="cta-row" style="margin-top:0"><a class="btn btn-primary" href="book.html">Book Online Now</a><a class="btn btn-ghost" href="{SMS}">Text {PHONE}</a></div>
+    <div class="cta-row" style="margin-top:0"><a class="btn btn-primary" href="{BOOK}">Book Online Now</a><a class="btn btn-ghost" href="{SMS}">Text {PHONE}</a></div>
   </div>
 </section>
 <footer>
@@ -68,7 +68,7 @@ FOOTER = f'''<section class="final">
 </footer>
 <div class="stickybar">
   <a class="btn btn-outline" href="{SMS}">Text Us</a>
-  <a class="btn btn-primary" href="book.html">Book Online</a>
+  <a class="btn btn-primary" href="{BOOK}">Book Online</a>
 </div>
 <script src="site.js"></script>
 </body>
