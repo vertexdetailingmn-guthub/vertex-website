@@ -25,3 +25,14 @@
 /understanding-the-art-of-paint-correction/ /ceramic-coating 301
 /spring-cleaning-tips-and-tricks-for-your-car/ /mobile-car-detailing 301
 /why-detailing-makes-your-car-worth-more/ /mobile-car-detailing 301
+# Old WordPress sitemaps -> new sitemap (Search Console may still have them on file)
+/sitemap_index.xml          /sitemap.xml                    301
+/wp-sitemap.xml             /sitemap.xml                    301
+/page-sitemap.xml           /sitemap.xml                    301
+/post-sitemap.xml           /sitemap.xml                    301
+/feed/                      /                               301
+/blog/                      /                               301
+/booking/                   /book                           301
+/book-now/                  /book                           301
+/services/                  /mobile-car-detailing           301
+/gallery/                   /reviews                        301
