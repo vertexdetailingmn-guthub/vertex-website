@@ -7,7 +7,7 @@ DIST = os.path.join(ROOT, 'dist')
 BOOK = 'https://orbisx.ca/app/book-now/VSVwv/VSnKt'
 PHONE = '(651) 363-4422'
 SMS = 'sms:6513634422'
-GA_ID = ''  # Google Analytics 4 measurement ID, e.g. 'G-XXXXXXXXXX'. Leave empty to disable.
+GA_ID = 'G-WTMDYKH5F4'  # Google Analytics 4 measurement ID, e.g. 'G-XXXXXXXXXX'. Leave empty to disable.
 
 NAV = [('pricing.html', 'Pricing'), ('mobile-car-detailing.html', 'Detailing'), ('ceramic-coating.html', 'Ceramic Coating'),
        ('maintenance-plans.html', 'Maintenance'), ('reviews.html', 'Reviews'), ('contact.html', 'Contact')]
