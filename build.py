@@ -7,6 +7,17 @@ DIST = os.path.join(ROOT, 'dist')
 BOOK = 'https://orbisx.ca/app/book-now/VSVwv/VSnKt'
 PHONE = '(651) 363-4422'
 SMS = 'sms:6513634422'
+GIFT = 'https://orbisx.ca/app/gift-cards/VSVwv'
+# Gift card promo popup. Set PROMO_END to '' to turn it off. It also stops showing after this date.
+PROMO_END = '2026-12-25'
+PROMO = f'''<aside class="promo" id="promo" role="dialog" aria-labelledby="promo-h" data-end="{PROMO_END}" hidden>
+  <button class="promo-x" type="button" aria-label="Close">&times;</button>
+  <span class="promo-tag">Holiday gift cards</span>
+  <p class="promo-h" id="promo-h">Give a clean car this year.</p>
+  <p class="promo-p">Any amount, emailed instantly, never expires. Good for any detail or ceramic coating.</p>
+  <a class="btn btn-primary promo-btn" href="{GIFT}">Buy a gift card</a>
+</aside>'''
+NO_PROMO = {'gift-cards.html', 'thanks.html', '404.html'}
 GA_ID = 'G-WTMDYKH5F4'  # Google Analytics 4 measurement ID, e.g. 'G-XXXXXXXXXX'. Leave empty to disable.
 
 NAV = [('pricing.html', 'Pricing'), ('mobile-car-detailing.html', 'Detailing'), ('ceramic-coating.html', 'Ceramic Coating'),
@@ -132,7 +143,8 @@ def build():
         body = body[m.end():]
         name = os.path.basename(src)
         body = body.replace('{BOOK}', BOOK).replace('{SMS}', SMS).replace('{PHONE}', PHONE)
-        out = head(title, desc, clean_url(name)) + '\n' + header(name) + '\n' + body + '\n' + FOOTER
+        promo = PROMO if PROMO_END and name not in NO_PROMO else ''
+        out = head(title, desc, clean_url(name)) + '\n' + header(name) + '\n' + body + '\n' + FOOTER.replace('<script src="site.js">', promo + '\n<script src="site.js">')
         open(os.path.join(DIST, name), 'w').write(fix_links(out))
         print('built', name)
     # sitemap: every public page except 404/thanks

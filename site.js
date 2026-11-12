@@ -35,4 +35,18 @@
         .catch(function(){btn.disabled=false; if(err) err.hidden=false;});
     });
   }
+  /* gift card promo popup: shows after a short delay, hides for 3 days once closed, stops after data-end */
+  var pr=document.getElementById('promo');
+  if(pr){
+    var end=pr.dataset.end, KEY='vtx-promo-closed', closed=0;
+    try{closed=Number(localStorage.getItem(KEY))||0;}catch(e){}
+    var expired=end && new Date()>new Date(end+'T23:59:59');
+    if(!expired && Date.now()-closed>3*864e5){
+      setTimeout(function(){pr.hidden=false;requestAnimationFrame(function(){pr.classList.add('show');});},2500);
+    }
+    function closePromo(){pr.classList.remove('show');setTimeout(function(){pr.hidden=true;},300);try{localStorage.setItem(KEY,String(Date.now()));}catch(e){}}
+    pr.querySelector('.promo-x').addEventListener('click',closePromo);
+    pr.querySelector('.promo-btn').addEventListener('click',function(){try{localStorage.setItem(KEY,String(Date.now()));}catch(e){}});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!pr.hidden)closePromo();});
+  }
 })();
