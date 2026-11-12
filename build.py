@@ -11,7 +11,42 @@ SMS = 'sms:6513634422'
 NAV = [('pricing.html', 'Pricing'), ('mobile-car-detailing.html', 'Detailing'), ('ceramic-coating.html', 'Ceramic Coating'),
        ('maintenance-plans.html', 'Maintenance'), ('reviews.html', 'Reviews'), ('contact.html', 'Contact')]
 
+SCHEMA = {
+    "@context": "https://schema.org",
+    "@type": "AutoWash",
+    "@id": "https://vertexdetailing.co/#business",
+    "name": "Vertex Detailing",
+    "legalName": "Vertex Detailing LLC",
+    "description": "Mobile car detailing and System X ceramic coating in Woodbury, MN and the east Twin Cities metro.",
+    "url": "https://vertexdetailing.co/",
+    "logo": "https://vertexdetailing.co/img/logo.png",
+    "image": "https://vertexdetailing.co/img/hero.jpg",
+    "telephone": "+1-651-363-4422",
+    "priceRange": "$$",
+    "paymentAccepted": "Credit Card, Check, Venmo, Cash",
+    "address": {"@type": "PostalAddress", "addressLocality": "Woodbury", "addressRegion": "MN", "addressCountry": "US"},
+    "areaServed": [{"@type": "City", "name": c} for c in [
+        "Woodbury, MN", "Lake Elmo, MN", "Oakdale, MN", "Stillwater, MN", "Cottage Grove, MN", "Afton, MN",
+        "Mahtomedi, MN", "White Bear Lake, MN", "St. Paul, MN", "Maplewood, MN", "Roseville, MN",
+        "Inver Grove Heights, MN", "Eagan, MN", "Hastings, MN", "Hudson, WI", "River Falls, WI"]],
+    "openingHoursSpecification": [{"@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        "opens": "09:00", "closes": "18:00"}],
+}
+
+def clean_url(name):
+    """pages/foo.html -> 'foo' (Cloudflare Pages serves /foo and 308-redirects /foo.html)."""
+    return '' if name == 'index.html' else name[:-5]
+
+def fix_links(html):
+    """Point internal links at the final extensionless URL so nothing redirects."""
+    def sub(m):
+        page, frag = m.group(1), m.group(2) or ''
+        return f'href="/{clean_url(page + ".html")}{frag}"'
+    return re.sub(r'href="([a-z0-9-]+)\.html(#[^"]*)?"', sub, html)
+
 def head(title, desc, canonical):
+    schema = __import__('json').dumps(SCHEMA, separators=(',', ':')).replace('</', '<\\/')
     return f'''<!doctype html>
 <html lang="en">
 <head>
@@ -20,16 +55,19 @@ def head(title, desc, canonical):
 <title>{title}</title>
 <meta name="description" content="{desc}">
 <link rel="canonical" href="https://vertexdetailing.co/{canonical}">
+<meta property="og:url" content="https://vertexdetailing.co/{canonical}">
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
 <meta property="og:image" content="https://vertexdetailing.co/img/hero.jpg">
 <meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#141518">
 <link rel="icon" href="favicon.ico">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="site.css">
+<script type="application/ld+json">{schema}</script>
 </head>
 <body>'''
 
@@ -56,12 +94,12 @@ FOOTER = f'''<section class="final">
       <p style="margin-top:14px;max-width:40ch">Mobile car detailing and ceramic coating, Woodbury MN. Owner-operated and fully insured. Minnesota LLC.</p>
     </div>
     <div>
-      <h4>Services</h4>
+      <p class="fh">Services</p>
       <ul><li><a href="mobile-car-detailing.html">Mobile car detailing</a></li><li><a href="ceramic-coating.html">Ceramic coating</a></li><li><a href="maintenance-plans.html">Maintenance plans</a></li><li><a href="boat-rv-detailing.html">Boats &amp; RVs</a></li><li><a href="gift-cards.html">Gift cards</a></li></ul>
     </div>
     <div>
-      <h4>Company</h4>
-      <ul><li><a href="reviews.html">Reviews</a></li><li><a href="service-area.html">Service area</a></li><li><a href="faq.html">FAQ</a></li><li><a href="contact.html">Contact</a></li><li><a href="https://orbisx.ca/app/hublogin/VSVwv">Customer login</a></li><li><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></li></ul>
+      <p class="fh">Company</p>
+      <ul><li><a href="reviews.html">Reviews</a></li><li><a href="service-area.html">Service area</a></li><li><a href="faq.html">FAQ</a></li><li><a href="contact.html">Contact</a></li><li><a href="book.html">Get a quick quote</a></li><li><a href="https://orbisx.ca/app/hublogin/VSVwv">Customer login</a></li><li><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></li></ul>
     </div>
   </div>
   <div class="copy"><div class="wrap"><span>© 2026 Vertex Detailing LLC · Woodbury, MN</span><span class="phone" style="font-size:20px">{PHONE}</span></div></div>
@@ -91,8 +129,8 @@ def build():
         body = body[m.end():]
         name = os.path.basename(src)
         body = body.replace('{BOOK}', BOOK).replace('{SMS}', SMS).replace('{PHONE}', PHONE)
-        out = head(title, desc, '' if name == 'index.html' else name) + '\n' + header(name) + '\n' + body + '\n' + FOOTER
-        open(os.path.join(DIST, name), 'w').write(out)
+        out = head(title, desc, clean_url(name)) + '\n' + header(name) + '\n' + body + '\n' + FOOTER
+        open(os.path.join(DIST, name), 'w').write(fix_links(out))
         print('built', name)
     # sitemap: every public page except 404/thanks
     skip={'404.html','thanks.html'}
@@ -100,7 +138,7 @@ def build():
     today=__import__('datetime').date.today().isoformat()
     xml='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     for n in urls:
-        loc='https://vertexdetailing.co/'+('' if n=='index.html' else n)
+        loc='https://vertexdetailing.co/'+clean_url(n)
         pri='1.0' if n=='index.html' else '0.8'
         xml+=f'  <url><loc>{loc}</loc><lastmod>{today}</lastmod><priority>{pri}</priority></url>\n'
     xml+='</urlset>\n'
