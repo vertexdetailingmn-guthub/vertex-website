@@ -28,9 +28,11 @@
       var v=(fd.get('vehicle')||'').match(/^(\d{4})\s+(\S+)\s+(.+)$/);
       if(v){data.auto_year=v[1];data.auto_make=v[2];data.auto_model=v[3];}
       var btn=document.getElementById('q-submit'); btn.disabled=true;
+      var err=document.getElementById('q-error'); if(err) err.hidden=true;
       fetch('/api/lead',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(data)})
-        .catch(function(){})
-        .then(function(){document.getElementById('q-done').hidden=false;});
+        .then(function(r){return r.json().catch(function(){return {};}).then(function(d){if(!r.ok||!d.ok) throw new Error(d.error||d.message||r.status);});})
+        .then(function(){document.getElementById('q-done').hidden=false; btn.hidden=true;})
+        .catch(function(){btn.disabled=false; if(err) err.hidden=false;});
     });
   }
 })();
