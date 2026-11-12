@@ -7,6 +7,7 @@ DIST = os.path.join(ROOT, 'dist')
 BOOK = 'https://orbisx.ca/app/book-now/VSVwv/VSnKt'
 PHONE = '(651) 363-4422'
 SMS = 'sms:6513634422'
+GA_ID = ''  # Google Analytics 4 measurement ID, e.g. 'G-XXXXXXXXXX'. Leave empty to disable.
 
 NAV = [('pricing.html', 'Pricing'), ('mobile-car-detailing.html', 'Detailing'), ('ceramic-coating.html', 'Ceramic Coating'),
        ('maintenance-plans.html', 'Maintenance'), ('reviews.html', 'Reviews'), ('contact.html', 'Contact')]
@@ -46,6 +47,8 @@ def fix_links(html):
     return re.sub(r'href="([a-z0-9-]+)\.html(#[^"]*)?"', sub, html)
 
 def head(title, desc, canonical):
+    ga = (f'\n<script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>'
+          f"\n<script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','{GA_ID}');</script>") if GA_ID else ''
     schema = __import__('json').dumps(SCHEMA, separators=(',', ':')).replace('</', '<\\/')
     return f'''<!doctype html>
 <html lang="en">
@@ -67,7 +70,7 @@ def head(title, desc, canonical):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="site.css">
-<script type="application/ld+json">{schema}</script>
+<script type="application/ld+json">{schema}</script>{ga}
 </head>
 <body>'''
 
